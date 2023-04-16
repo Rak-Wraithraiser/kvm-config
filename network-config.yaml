@@ -1,0 +1,38 @@
+---
+name: configure network config
+hosts: all
+become: true
+become_method: sudo
+vars:
+  
+  #create bond0
+  - name: bond0
+    state: up
+    type: bond
+    interface_name: bond0
+    ip:
+      address:
+        - ""
+    bond:
+      mode: active-backup
+
+  # add ethernet profiles to bond
+  - name: member1
+    state: up
+    type: ethernet
+    interface_name: ens160
+    controller: bond0
+
+  - name: member2
+    state: up
+    type: ethernet
+    interface_name: ens224
+    controller: bond0
+
+  # create vlans
+
+  #create bridges 
+
+
+roles: 
+  - rhel-system-roles.network
